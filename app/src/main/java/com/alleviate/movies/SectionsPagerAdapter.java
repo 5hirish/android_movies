@@ -23,13 +23,13 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new MoviesFragment();
             case 1:
-                return new MoviesFragment();
+                return new RatingFragment();
             case 2:
-                return new MoviesFragment();
+                return new RatingFragment();
             case 3:
-                return new MoviesFragment();
+                return new RatingFragment();
             case 4:
-                return new MoviesFragment();
+                return new RatingFragment();
         }
         return null;
     }

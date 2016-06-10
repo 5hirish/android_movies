@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
@@ -52,9 +54,13 @@ public class MoviesFragment extends Fragment {
 
         String movies[] = getResources().getStringArray(R.array.mcu_titles);
         final ArrayList movies_list = new ArrayList<String>(Arrays.asList(movies));
+        Collections.sort(movies_list);
 
         movieAdapter = new MovieAdapter(getActivity(), movies_list);
         recyclerView.setAdapter(movieAdapter);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
         return frag_view;
     }
