@@ -2,14 +2,14 @@ package com.alleviate.movies;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by felix on 10/6/16.
  * Created at Alleviate.
  * shirishkadam.com
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -39,6 +39,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Show 5 total pages.
         return Constants.num_tab;
     }
+
+    @Override
+    public int getItemPosition(Object item) {
+        return POSITION_NONE;
+    }
+
 
     @Override
     public CharSequence getPageTitle(int position) {

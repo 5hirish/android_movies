@@ -13,4 +13,16 @@
         android:title="@string/search"
         android:icon="@drawable/ic_search_24dp"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_switch_card"
+        android:orderInCategory="2"
+        android:title="@string/search"
+        android:icon="@drawable/ic_card_24dp"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_switch_list"
+        android:orderInCategory="2"
+        android:title="@string/search"
+        android:icon="@drawable/ic_view_list_24dp"
+        app:showAsAction="always" />
 </menu>

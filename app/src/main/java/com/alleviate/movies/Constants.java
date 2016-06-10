@@ -14,4 +14,9 @@ public class Constants {
     public static final String tab_title_actors = "Actors";
     public static final String tab_title_genres = "Genres";
 
+    public static final String shared_preferences_file = "Settings";
+    public static final String sp_view_type = "View";
+    public static final String sp_view_type_card = "Card";
+    public static final String sp_view_type_list = "List";
+
 }

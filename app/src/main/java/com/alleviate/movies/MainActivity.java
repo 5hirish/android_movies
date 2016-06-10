@@ -1,5 +1,6 @@
 package com.alleviate.movies;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -59,12 +60,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
+    private MenuItem card_view, list_view;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        card_view = menu.findItem(R.id.action_switch_card);
+        list_view = menu.findItem(R.id.action_switch_list);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.shared_preferences_file,MODE_PRIVATE);
+        String view_type = sharedPreferences.getString(Constants.sp_view_type, Constants.sp_view_type_card);
+
+        if (view_type.equals(Constants.sp_view_type_card)){
+
+            list_view.setVisible(true);
+            card_view.setVisible(false);
+
+        } else {
+
+            list_view.setVisible(false);
+            card_view.setVisible(true);
+
+        }
+
         return true;
     }
 
@@ -80,7 +99,32 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_search){
             return true;
+        } else if (id == R.id.action_switch_card) {
+
+            SharedPreferences sharedPreferences = getSharedPreferences(Constants.shared_preferences_file,MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(Constants.sp_view_type, Constants.sp_view_type_card);
+            editor.commit();
+
+            list_view.setVisible(true);
+            card_view.setVisible(false);
+
+            mSectionsPagerAdapter.notifyDataSetChanged();
+
+        } else if (id == R.id.action_switch_list) {
+
+            SharedPreferences sharedPreferences = getSharedPreferences(Constants.shared_preferences_file,MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(Constants.sp_view_type, Constants.sp_view_type_list);
+            editor.commit();
+
+            list_view.setVisible(false);
+            card_view.setVisible(true);
+
+            mSectionsPagerAdapter.notifyDataSetChanged();
+
         }
+
 
         return super.onOptionsItemSelected(item);
     }
