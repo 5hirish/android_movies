@@ -10,7 +10,16 @@
         android:id="@+id/rating_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:scrollbars="vertical" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.turingtechnologies.materialscrollbar.DragScrollBar
+        android:id="@+id/dragScrollBar"
+        android:layout_width="wrap_content"
+        app:msb_barThickness="4dp"
+        app:msb_handleColour="@color/colorAccent"
+        app:msb_recyclerView="@id/rating_view"
+        app:msb_lightOnTouch="true"
+        android:layout_height="match_parent"
+        android:layout_gravity="right" />
 
 </FrameLayout>
