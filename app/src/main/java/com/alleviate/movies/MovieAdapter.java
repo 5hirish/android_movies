@@ -1,6 +1,7 @@
 package com.alleviate.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
  * Created at Alleviate.
  * shirishkadam.com
  */
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     ArrayList mcu_movies;
@@ -37,7 +39,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MovieAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final MovieAdapter.ViewHolder holder, int position) {
 
         /*Bitmap poster = BitmapFactory.decodeResource(context.getResources(), R.drawable.marvel_studios_logo);
         if (poster != null && !poster.isRecycled()) {
@@ -57,7 +59,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         ((LinearLayout) holder.itemView.findViewById(R.id.mainHolder)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Click",Toast.LENGTH_SHORT).show();
+                Intent in = new Intent(context, MovieDetailActivity.class);
+                in.putExtra(Constants.in_movie_title, mcu_movies.get(holder.getAdapterPosition()).toString());
+                context.startActivity(in);
             }
         });
     }

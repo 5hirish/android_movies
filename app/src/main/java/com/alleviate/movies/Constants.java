@@ -19,4 +19,7 @@ public class Constants {
     public static final String sp_view_type_card = "Card";
     public static final String sp_view_type_list = "List";
 
+    public static final String in_movie_title = "Movie_Title";
+
+
 }
