@@ -19,6 +19,9 @@ import android.widget.Toast;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
 import com.alleviate.movies.models.MovieTMdb;
+import com.alleviate.movies.pojo.CreditCast;
+import com.alleviate.movies.pojo.CreditCrew;
+import com.alleviate.movies.pojo.CreditMovies;
 import com.alleviate.movies.pojo.SearchMovies;
 import com.alleviate.movies.pojo.SearchMoviesResult;
 import com.alleviate.movies.tmdb.TMDbAPI;
@@ -26,6 +29,7 @@ import com.alleviate.movies.tmdb.TMDbAPIService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -37,7 +41,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TMDbAPIService mAPIService;
     String movie_keyword;
     TextView response_tv;
-    int movie_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
                 if(networkInfo!=null && networkInfo.isConnected()){
-                    movie_id = get_tmdb_movies(movie_keyword, false);
+                    get_tmdb_movies(movie_keyword, false);
                 } else {
                     Toast.makeText(getApplicationContext(),"Data Connection Failed...",Toast.LENGTH_SHORT).show();
                 }
@@ -78,7 +81,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
                 if(networkInfo!=null && networkInfo.isConnected()){
-                    movie_id = get_tmdb_movies(movie_keyword, true);
+                    get_tmdb_movies(movie_keyword, true);
                 } else {
                     Toast.makeText(getApplicationContext(),"Data Connection Failed...",Toast.LENGTH_SHORT).show();
                 }
@@ -87,9 +90,32 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    public int get_tmdb_movies(final String movie_title, final boolean is_list) {
+    private void get_tmdb_movie_credits(int movie_id) {
 
-        final int[] movie_id = new int[1];
+        Call <CreditMovies> movie_credits = mAPIService.get_movie_credits(movie_id, getString(R.string.tmdb_api_key));
+        movie_credits.enqueue(new Callback<CreditMovies>() {
+            @Override
+            public void onResponse(Call<CreditMovies> call, Response<CreditMovies> response) {
+                if (response.isSuccessful()){
+
+                    List<CreditCast> movie_cast = response.body().getCast();
+                    List<CreditCrew> movie_crew = response.body().getCrew();
+
+                    response_tv.setText(response.body().getId());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreditMovies> call, Throwable t) {
+                t.printStackTrace();
+                Log.e("Request", "Unable to send GET to API. :: "+t.toString());
+            }
+        });
+
+    }
+
+    public void get_tmdb_movies(final String movie_title, final boolean is_list) {
 
         Map<String, String> params = new HashMap<>();
         params.put("api_key", getString(R.string.tmdb_api_key));
@@ -117,7 +143,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                             movie_titles.add(tMdb);
                         }
 
-                        movie_id[0] = build_movie_dialog(movie_titles);
+                        int movie_id = build_movie_dialog(movie_titles);
+                        get_tmdb_movie_credits(movie_id);
+
 
 
                     } else {
@@ -126,7 +154,9 @@ public class MovieDetailActivity extends AppCompatActivity {
                         MovieTMdb tMdb = new MovieTMdb(first_match_movie.getId(), first_match_movie.getOriginalTitle(), first_match_movie.getReleaseDate());
                         movie_titles.add(tMdb);
 
-                        movie_id[0] = first_match_movie.getId();
+                        int movie_id = first_match_movie.getId();
+                        get_tmdb_movie_credits(movie_id);
+
                     }
 
                 }
@@ -138,8 +168,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Log.e("Request", "Unable to send GET to API. :: "+t.toString());
             }
         });
-
-        return movie_id[0];
     }
 
     private int build_movie_dialog(ArrayList<MovieTMdb> movies_result) {
