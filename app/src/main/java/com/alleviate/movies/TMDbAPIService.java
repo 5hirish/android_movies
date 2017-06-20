@@ -15,10 +15,10 @@ import retrofit2.http.QueryMap;
  * www.shirishkadam.com
  */
 
-public interface TMDbAPIService {
+interface TMDbAPIService {
 
-    @GET("/search/movie")
-    Call <List<SearchMovies>> search_movies(@QueryMap Map<String, String> params);
+    @GET("/3/search/movie")
+    Call <SearchMovies> search_movies(@QueryMap Map<String, String> params);
 }
 
-// https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&query=ant-man&include_adult=false
+// https://api.themoviedb.org/3/search/movie?api_key=<api_key>&language=en-US&query=ant-man&include_adult=false

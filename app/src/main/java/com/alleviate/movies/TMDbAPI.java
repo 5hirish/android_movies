@@ -6,13 +6,13 @@ package com.alleviate.movies;
  * www.shirishkadam.com
  */
 
-public class TMDbAPI {
+class TMDbAPI {
 
     private TMDbAPI() {}
 
-    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    private static final String BASE_URL = "https://api.themoviedb.org/";
 
-    public static TMDbAPIService getAPIService() {
+    static TMDbAPIService getAPIService() {
 
         return RetrofitClient.getClient(BASE_URL).create(TMDbAPIService.class);
     }

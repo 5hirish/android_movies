@@ -1,3 +1,4 @@
+
 package com.alleviate.movies;
 
 import java.util.List;
@@ -9,15 +10,15 @@ public class SearchMovies {
     @SerializedName("page")
     @Expose
     private Integer page;
+    @SerializedName("results")
+    @Expose
+    private List<SearchMoviesResult> results = null;
     @SerializedName("total_results")
     @Expose
     private Integer totalResults;
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
-    @SerializedName("results")
-    @Expose
-    private List<SearchMoviesResult> results = null;
 
     public Integer getPage() {
         return page;
@@ -25,6 +26,14 @@ public class SearchMovies {
 
     public void setPage(Integer page) {
         this.page = page;
+    }
+
+    public List<SearchMoviesResult> getResults() {
+        return results;
+    }
+
+    public void setResults(List<SearchMoviesResult> results) {
+        this.results = results;
     }
 
     public Integer getTotalResults() {
@@ -41,14 +50,6 @@ public class SearchMovies {
 
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
-    }
-
-    public List<SearchMoviesResult> getResults() {
-        return results;
-    }
-
-    public void setResults(List<SearchMoviesResult> results) {
-        this.results = results;
     }
 
 }
