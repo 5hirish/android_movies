@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alleviate.movies.adapters.CasteAdapter;
 import com.alleviate.movies.adapters.MovieAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
@@ -50,7 +51,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView response_tv;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private MovieAdapter movieAdapter;
+    private CasteAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,15 +105,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        String movies[] = getResources().getStringArray(R.array.mcu_titles);
+        String movies[] = getResources().getStringArray(R.array.mcu_caste);
         final ArrayList movies_list = new ArrayList<String>(Arrays.asList(movies));
         Collections.sort(movies_list);
 
-        movieAdapter = new MovieAdapter(MovieDetailActivity.this, movies_list);
+        movieAdapter = new CasteAdapter(MovieDetailActivity.this, movies_list);
         recyclerView.setAdapter(movieAdapter);
 
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
-
 
     }
 

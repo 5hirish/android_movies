@@ -29,6 +29,19 @@
         <item>Avengers: Infinity War – Part 2</item>
     </string-array>
 
+    <string-array name="mcu_caste">
+        <item>Robert Downey Jr.</item>
+        <item>Chris Evans</item>
+        <item>Mark Ruffalo</item>
+        <item>Chris Hemsworth</item>
+        <item>Scarlett Johansson</item>
+        <item>Jeremy Renner</item>
+        <item>Tom Hiddleston</item>
+        <item>Clark Gregg</item>
+        <item>Cobie Smulders</item>
+        <item>Samuel L. Jackson</item>
+    </string-array>
+
     <string name="title_activity_movie_detail">Movie</string>
     <string name="movie_list_dialog">Select Movie</string>
 
