@@ -1,4 +1,4 @@
-package com.alleviate.movies;
+package com.alleviate.movies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alleviate.movies.MovieDetailActivity;
+import com.alleviate.movies.R;
+import com.alleviate.movies.helper.Constants;
 import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 import java.util.ArrayList;

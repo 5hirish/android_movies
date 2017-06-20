@@ -13,6 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.alleviate.movies.adapters.SectionsPagerAdapter;
+import com.alleviate.movies.helper.Constants;
+
 public class MainActivity extends AppCompatActivity {
 
     /**

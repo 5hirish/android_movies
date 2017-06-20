@@ -1,4 +1,4 @@
-package com.alleviate.movies;
+package com.alleviate.movies.fragment;
 
 
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alleviate.movies.R;
+import com.alleviate.movies.adapters.MetaDataAdapter;
+import com.alleviate.movies.ui.DividerItemDecoration;
 import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
 import com.turingtechnologies.materialscrollbar.DragScrollBar;
 

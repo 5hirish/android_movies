@@ -1,5 +1,5 @@
 
-package com.alleviate.movies;
+package com.alleviate.movies.pojo;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

@@ -1,4 +1,6 @@
-package com.alleviate.movies;
+package com.alleviate.movies.tmdb;
+
+import com.alleviate.movies.RetrofitClient;
 
 /**
  * Created by Shirish Kadam on 18/6/17.
@@ -6,13 +8,13 @@ package com.alleviate.movies;
  * www.shirishkadam.com
  */
 
-class TMDbAPI {
+public class TMDbAPI {
 
     private TMDbAPI() {}
 
     private static final String BASE_URL = "https://api.themoviedb.org/";
 
-    static TMDbAPIService getAPIService() {
+    public static TMDbAPIService getAPIService() {
 
         return RetrofitClient.getClient(BASE_URL).create(TMDbAPIService.class);
     }

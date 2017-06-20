@@ -1,12 +1,11 @@
-package com.alleviate.movies;
+package com.alleviate.movies.tmdb;
 
-import java.util.List;
+import com.alleviate.movies.pojo.SearchMovies;
+
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -15,10 +14,13 @@ import retrofit2.http.QueryMap;
  * www.shirishkadam.com
  */
 
-interface TMDbAPIService {
+public interface TMDbAPIService {
 
     @GET("/3/search/movie")
     Call <SearchMovies> search_movies(@QueryMap Map<String, String> params);
+
+    //@GET("/3/movie/{movie_id}/credits")
+    //Call <CreditMovies>
 }
 
 // https://api.themoviedb.org/3/search/movie?api_key=<api_key>&language=en-US&query=ant-man&include_adult=false

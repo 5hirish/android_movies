@@ -1,5 +1,5 @@
 
-package com.alleviate.movies;
+package com.alleviate.movies.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;

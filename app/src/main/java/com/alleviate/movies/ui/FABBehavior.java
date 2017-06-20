@@ -1,4 +1,4 @@
-package com.alleviate.movies;
+package com.alleviate.movies.ui;
 
 
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import com.alleviate.movies.R;
 
 public class FABBehavior extends FloatingActionButton.Behavior {
 

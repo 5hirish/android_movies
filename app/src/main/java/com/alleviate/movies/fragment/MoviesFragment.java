@@ -1,4 +1,4 @@
-package com.alleviate.movies;
+package com.alleviate.movies.fragment;
 
 
 import android.content.Context;
@@ -11,6 +11,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.alleviate.movies.R;
+import com.alleviate.movies.adapters.MovieAdapter;
+import com.alleviate.movies.helper.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;

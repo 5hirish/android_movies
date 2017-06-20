@@ -12,6 +12,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alleviate.movies.helper.Constants;
+import com.alleviate.movies.pojo.SearchMovies;
+import com.alleviate.movies.pojo.SearchMoviesResult;
+import com.alleviate.movies.tmdb.TMDbAPI;
+import com.alleviate.movies.tmdb.TMDbAPIService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

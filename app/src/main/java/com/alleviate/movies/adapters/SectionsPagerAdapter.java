@@ -1,8 +1,12 @@
-package com.alleviate.movies;
+package com.alleviate.movies.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.alleviate.movies.fragment.MoviesFragment;
+import com.alleviate.movies.fragment.RatingFragment;
+import com.alleviate.movies.helper.Constants;
 
 /**
  * Created by felix on 10/6/16.

@@ -11,11 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * www.shirishkadam.com
  */
 
-class RetrofitClient {
+public class RetrofitClient {
 
     private static Retrofit retrofit = null;
 
-    static Retrofit getClient(String baseUrl) {
+    public static Retrofit getClient(String baseUrl) {
         if (retrofit==null) {
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
