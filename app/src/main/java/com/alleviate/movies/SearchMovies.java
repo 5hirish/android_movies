@@ -1,6 +1,7 @@
 
 package com.alleviate.movies;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +13,7 @@ public class SearchMovies {
     private Integer page;
     @SerializedName("results")
     @Expose
-    private List<SearchMoviesResult> results = null;
+    private ArrayList<SearchMoviesResult> results = null;
     @SerializedName("total_results")
     @Expose
     private Integer totalResults;
@@ -28,11 +29,11 @@ public class SearchMovies {
         this.page = page;
     }
 
-    public List<SearchMoviesResult> getResults() {
+    public ArrayList<SearchMoviesResult> getResults() {
         return results;
     }
 
-    public void setResults(List<SearchMoviesResult> results) {
+    public void setResults(ArrayList<SearchMoviesResult> results) {
         this.results = results;
     }
 

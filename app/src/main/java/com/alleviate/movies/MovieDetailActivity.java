@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,14 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.QueryMap;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -45,23 +43,38 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mAPIService = TMDbAPI.getAPIService();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.search_movie);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton search_fab = (FloatingActionButton) findViewById(R.id.search_movie);
+        search_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
                 if(networkInfo!=null && networkInfo.isConnected()){
-                    get_tmdb_movies(movie_keyword);
+                    get_tmdb_movies(movie_keyword, false);
                 } else {
                     Toast.makeText(getApplicationContext(),"Data Connection Failed...",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        search_fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+                if(networkInfo!=null && networkInfo.isConnected()){
+                    get_tmdb_movies(movie_keyword, true);
+                } else {
+                    Toast.makeText(getApplicationContext(),"Data Connection Failed...",Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
     }
 
-    public void get_tmdb_movies(String movie_title) {
+    public void get_tmdb_movies(final String movie_title, final boolean is_list) {
 
         Map<String, String> params = new HashMap<>();
         params.put("api_key", getString(R.string.tmdb_api_key));
@@ -76,7 +89,19 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call <SearchMovies> call, Response <SearchMovies> response) {
                 if(response.isSuccessful()){
-                    response_tv.setText(response.body().toString());
+                    ArrayList<String> movie_titles = new ArrayList<String>();
+                    ArrayList<SearchMoviesResult> movies_result = response.body().getResults();
+                    if (is_list){
+                        for (SearchMoviesResult movie:movies_result) {
+                            movie_titles.add(movie.getOriginalTitle()+" ("+movie.getReleaseDate()+")\n");
+                        }
+                    } else {
+                        SearchMoviesResult first_match_movie = movies_result.get(0);
+                        movie_titles.add(first_match_movie.getOriginalTitle()+" ("+first_match_movie.getReleaseDate()+")\n");
+                    }
+
+                    response_tv.setText(movie_titles.toString()+"\n"+response.body().getTotalResults().toString());
+
                 }
             }
 
