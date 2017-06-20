@@ -8,6 +8,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alleviate.movies.adapters.MovieAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
 import com.alleviate.movies.models.MovieTMdb;
@@ -28,6 +33,8 @@ import com.alleviate.movies.tmdb.TMDbAPI;
 import com.alleviate.movies.tmdb.TMDbAPIService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +48,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TMDbAPIService mAPIService;
     String movie_keyword;
     TextView response_tv;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private MovieAdapter movieAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +98,22 @@ public class MovieDetailActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        recyclerView = (RecyclerView) findViewById(R.id.movie_view);
+        recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        String movies[] = getResources().getStringArray(R.array.mcu_titles);
+        final ArrayList movies_list = new ArrayList<String>(Arrays.asList(movies));
+        Collections.sort(movies_list);
+
+        movieAdapter = new MovieAdapter(MovieDetailActivity.this, movies_list);
+        recyclerView.setAdapter(movieAdapter);
+
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
     }
 
     private void get_tmdb_movie_credits(int movie_id) {

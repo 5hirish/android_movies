@@ -48,6 +48,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
         app:layout_behavior="com.alleviate.movies.ui.FABBehavior"
-        android:src="@drawable/ic_autorenew_24dp" />
+        app:srcCompat="@drawable/ic_autorenew_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
