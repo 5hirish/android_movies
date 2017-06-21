@@ -23,25 +23,25 @@ import java.util.ArrayList;
  * shirishkadam.com
  */
 
-public class CasteAdapter extends RecyclerView.Adapter<CasteAdapter.ViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     ArrayList mcu_movies;
     Context context;
 
-    public CasteAdapter(Context context, ArrayList mcu_movies) {
+    public CastAdapter(Context context, ArrayList mcu_movies) {
         this.mcu_movies = mcu_movies;
         this.context = context;
 
     }
 
     @Override
-    public CasteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CastAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.caste_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final CasteAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final CastAdapter.ViewHolder holder, int position) {
 
         /*Bitmap poster = BitmapFactory.decodeResource(context.getResources(), R.drawable.marvel_studios_logo);
         if (poster != null && !poster.isRecycled()) {

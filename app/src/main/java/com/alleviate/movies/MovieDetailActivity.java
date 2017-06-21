@@ -8,10 +8,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alleviate.movies.adapters.CasteAdapter;
-import com.alleviate.movies.adapters.MovieAdapter;
+import com.alleviate.movies.adapters.CastAdapter;
+import com.alleviate.movies.adapters.CrewAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
 import com.alleviate.movies.models.MovieTMdb;
@@ -49,9 +47,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TMDbAPIService mAPIService;
     String movie_keyword;
     TextView response_tv;
-    private RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
-    private CasteAdapter movieAdapter;
+    private RecyclerView recyclerView_cast, recyclerView_crew;
+    private LinearLayoutManager linearLayoutManager_cast, linearLayoutManager_crew;
+    private CastAdapter movieAdapter_cast;
+    private CrewAdapter movieAdapter_crew;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,17 +100,30 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.movie_view);
-        recyclerView.setHasFixedSize(true);
-        linearLayoutManager = new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView_cast = (RecyclerView) findViewById(R.id.movie_view_cast);
+        recyclerView_crew = (RecyclerView) findViewById(R.id.movie_view_crew);
+
+        recyclerView_cast.setHasFixedSize(true);
+        recyclerView_crew.setHasFixedSize(true);
+
+        linearLayoutManager_cast = new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        linearLayoutManager_crew = new LinearLayoutManager(MovieDetailActivity.this, LinearLayoutManager.HORIZONTAL, false);
+
+
+        recyclerView_cast.setLayoutManager(linearLayoutManager_cast);
+        recyclerView_crew.setLayoutManager(linearLayoutManager_crew);
 
         String movies[] = getResources().getStringArray(R.array.mcu_caste);
         final ArrayList movies_list = new ArrayList<String>(Arrays.asList(movies));
         Collections.sort(movies_list);
 
-        movieAdapter = new CasteAdapter(MovieDetailActivity.this, movies_list);
-        recyclerView.setAdapter(movieAdapter);
+        movieAdapter_cast = new CastAdapter(MovieDetailActivity.this, movies_list);
+        movieAdapter_crew = new CrewAdapter(MovieDetailActivity.this, movies_list);
+
+        recyclerView_cast.setAdapter(movieAdapter_cast);
+        recyclerView_crew.setAdapter(movieAdapter_crew);
+
+
 
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
 

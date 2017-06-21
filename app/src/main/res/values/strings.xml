@@ -4,6 +4,12 @@
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
 
+    <string name="tmdb_crew_jobs_screenplay">Screenplay</string>
+    <string name="tmdb_crew_jobs_producer">Producer</string>
+    <string name="tmdb_crew_jobs_composer">Original Music Composer</string>
+    <string name="tmdb_crew_jobs_director">Director</string>
+    <string name="tmdb_crew_jobs_novel">Novel</string>
+
     <string-array name="mcu_titles">
         <item>Iron Man</item>
         <item>The Incredible Hulk</item>
@@ -41,6 +47,7 @@
         <item>Cobie Smulders</item>
         <item>Samuel L. Jackson</item>
     </string-array>
+
 
     <string name="title_activity_movie_detail">Movie</string>
     <string name="movie_list_dialog">Select Movie</string>
