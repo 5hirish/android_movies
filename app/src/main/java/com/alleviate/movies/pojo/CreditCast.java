@@ -29,7 +29,7 @@ public class CreditCast {
     private Integer order;
     @SerializedName("profile_path")
     @Expose
-    private Object profilePath;
+    private String profilePath;
 
     public Integer getCastId() {
         return castId;
@@ -87,11 +87,11 @@ public class CreditCast {
         this.order = order;
     }
 
-    public Object getProfilePath() {
+    public String getProfilePath() {
         return profilePath;
     }
 
-    public void setProfilePath(Object profilePath) {
+    public void setProfilePath(String profilePath) {
         this.profilePath = profilePath;
     }
 

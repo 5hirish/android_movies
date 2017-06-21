@@ -10,6 +10,14 @@
     <string name="tmdb_crew_jobs_director">Director</string>
     <string name="tmdb_crew_jobs_novel">Novel</string>
 
+    <string-array name="tmdb_crew_jobs">
+        <item>Screenplay</item>
+        <item>Producer</item>
+        <item>Original Music Composer</item>
+        <item>Director</item>
+        <item>Novel</item>
+    </string-array>
+
     <string-array name="mcu_titles">
         <item>Iron Man</item>
         <item>The Incredible Hulk</item>

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.alleviate.movies.MovieDetailActivity;
 import com.alleviate.movies.R;
 import com.alleviate.movies.helper.Constants;
+import com.alleviate.movies.models.CreditsCastTMdb;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,11 +26,11 @@ import java.util.ArrayList;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    ArrayList mcu_movies;
+    ArrayList<CreditsCastTMdb> creditsCastTMdbs;
     Context context;
 
-    public CastAdapter(Context context, ArrayList mcu_movies) {
-        this.mcu_movies = mcu_movies;
+    public CastAdapter(Context context, ArrayList<CreditsCastTMdb> creditsCastTMdbs) {
+        this.creditsCastTMdbs = creditsCastTMdbs;
         this.context = context;
 
     }
@@ -54,43 +55,22 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
             });
         }*/
 
-        ((TextView) holder.itemView.findViewById(R.id.movie_title)).setText(mcu_movies.get(position).toString());
+        ((TextView) holder.itemView.findViewById(R.id.credit_name)).setText(creditsCastTMdbs.get(holder.getAdapterPosition()).cast_name);
+        ((TextView) holder.itemView.findViewById(R.id.credit_description)).setText(creditsCastTMdbs.get(holder.getAdapterPosition()).cast_character);
 
         Picasso.with(context).load(R.drawable.marvel_studios_logo).into(((ImageView) holder.itemView.findViewById(R.id.movie_poster)));
 
         ((LinearLayout) holder.itemView.findViewById(R.id.mainHolder)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(context, MovieDetailActivity.class);
-                in.putExtra(Constants.in_movie_title, mcu_movies.get(holder.getAdapterPosition()).toString());
-                context.startActivity(in);
+                //
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mcu_movies.size();
-    }
-
-    // Remove a RecyclerView item containing a specified Data object
-    public void remove(String movie) {
-        int position = mcu_movies.indexOf(movie);
-        mcu_movies.remove(position);
-        notifyItemRemoved(position);
-        notifyDataSetChanged();
-    }
-
-    public void update(String movie) {
-        int position = mcu_movies.indexOf(movie);
-        mcu_movies.set(position,"Movie Liked");
-        notifyItemChanged(position);
-    }
-
-    public void insert(int position) {
-        mcu_movies.add(position, "New Movie");
-        notifyItemInserted(position);
-        //getItemId(position);
+        return creditsCastTMdbs.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

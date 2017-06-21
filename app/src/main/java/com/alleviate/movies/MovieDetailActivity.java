@@ -23,16 +23,21 @@ import com.alleviate.movies.adapters.CrewAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
 import com.alleviate.movies.helper.TMDbGenres;
+import com.alleviate.movies.models.CreditsCastTMdb;
+import com.alleviate.movies.models.CreditsCrewTMdb;
 import com.alleviate.movies.models.MovieTMdb;
 import com.alleviate.movies.pojo.CreditCast;
 import com.alleviate.movies.pojo.CreditCrew;
 import com.alleviate.movies.pojo.CreditMovies;
 import com.alleviate.movies.pojo.DetailMovies;
+import com.alleviate.movies.pojo.DetailMoviesGenre;
+import com.alleviate.movies.pojo.DetailMoviesProductionCompany;
 import com.alleviate.movies.pojo.SearchMovies;
 import com.alleviate.movies.pojo.SearchMoviesResult;
 import com.alleviate.movies.tmdb.TMDbAPI;
 import com.alleviate.movies.tmdb.TMDbAPIService;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +57,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private TMDbAPIService mAPIService;
     String movie_keyword;
-    TextView response_tv;
+    //TextView response_tv;
     private RecyclerView recyclerView_cast, recyclerView_crew;
     private LinearLayoutManager linearLayoutManager_cast, linearLayoutManager_crew;
     private CastAdapter movieAdapter_cast;
@@ -125,8 +130,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         final ArrayList movies_list = new ArrayList<String>(Arrays.asList(movies));
         Collections.sort(movies_list);
 
-        movieAdapter_cast = new CastAdapter(MovieDetailActivity.this, movies_list);
-        movieAdapter_crew = new CrewAdapter(MovieDetailActivity.this, movies_list);
+        ArrayList <CreditsCastTMdb> creditsCastTMdb = new ArrayList<CreditsCastTMdb>();
+        ArrayList <CreditsCrewTMdb> creditsCrewTMdb = new ArrayList<CreditsCrewTMdb>();
+
+        for (int i = 0; i < 5; i++){
+
+            creditsCastTMdb.add(new CreditsCastTMdb("Character", "Name", "", 0, i));
+
+            creditsCrewTMdb.add(new CreditsCrewTMdb("Department", "Job", "Name", ""));
+        }
+
+        movieAdapter_cast = new CastAdapter(MovieDetailActivity.this, creditsCastTMdb);
+        movieAdapter_crew = new CrewAdapter(MovieDetailActivity.this, creditsCrewTMdb);
+
 
         recyclerView_cast.setAdapter(movieAdapter_cast);
         recyclerView_crew.setAdapter(movieAdapter_crew);
@@ -140,10 +156,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         tv_mvpopularity = (TextView)findViewById(R.id.movie_popularity);
         tv_mvproduction = (TextView)findViewById(R.id.movie_production);
 
-        response_tv = (TextView)findViewById(R.id.response_text);
-
-
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
 
     }
 
@@ -158,7 +170,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     List<CreditCast> movie_cast = response.body().getCast();
                     List<CreditCrew> movie_crew = response.body().getCrew();
 
-                    //set_movie_metadata_credits(movie_crew);
+                    set_movie_metadata_credits(movie_cast, movie_crew);
 
                 }
             }
@@ -249,11 +261,14 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void set_movie_metadata(DetailMovies first_match_movie) {
 
+        setTitle(first_match_movie.getOriginalTitle());
+
         tv_mvtagline.setText(first_match_movie.getTagline());
 
-        for (int genre_id: first_match_movie.getGenreIds()) {
-            String genre = TMDbGenres.genre_map.get(genre_id);
-            tv_mvgenre.append(genre+", ");
+        List<DetailMoviesGenre> genreList = first_match_movie.getGenres();
+        tv_mvgenre.setText("");
+        for (DetailMoviesGenre genre: genreList) {
+            tv_mvgenre.append(genre.getName()+", ");
         }
 
         String release_date_str = first_match_movie.getReleaseDate();
@@ -278,13 +293,66 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         tv_mvvotes.setText(String.valueOf(first_match_movie.getVoteAverage()));
 
-        tv_mvpopularity.setText(String.valueOf(first_match_movie.getPopularity()));
+        Double mv_popularity = first_match_movie.getPopularity()/10 * 100;
+        tv_mvpopularity.setText(String.valueOf(mv_popularity.intValue())+" %");
 
-        tv_mvproduction.setText();
+        List<DetailMoviesProductionCompany> productionCompanyList = first_match_movie.getProductionCompanies();
+        tv_mvproduction.setText("");
+        for (DetailMoviesProductionCompany productionCompany: productionCompanyList) {
+            tv_mvproduction.append(productionCompany.getName()+", ");
+        }
     }
 
-    private void set_movie_metadata_credits(List<CreditCrew> movie_crew) {
+    private void set_movie_metadata_credits(List<CreditCast> movie_cast, List<CreditCrew> movie_crew) {
 
+        int limit = 1;
+
+        ArrayList <CreditsCastTMdb> creditsCastTMdb = new ArrayList<CreditsCastTMdb>();
+        ArrayList <CreditsCrewTMdb> creditsCrewTMdb = new ArrayList<CreditsCrewTMdb>();
+
+        for (CreditCast crediCast: movie_cast) {
+            if (limit == 16){
+                break;
+            }
+
+            String cast_character = crediCast.getCharacter();
+            String cast_name = crediCast.getName();
+            String cast_profile = crediCast.getProfilePath();
+            int cast_gender = crediCast.getGender();
+            int cast_order = crediCast.getOrder();
+
+            creditsCastTMdb.add(new CreditsCastTMdb(cast_character, cast_name, cast_profile, cast_gender, cast_order));
+
+            limit ++;
+        }
+
+        limit = 1;
+
+        for (CreditCrew crediCrew: movie_crew) {
+            if (limit == 16){
+                break;
+            }
+
+            String crew_department = crediCrew.getDepartment();
+            String crew_job = crediCrew.getJob();
+            String crew_name = crediCrew.getName();
+            String crew_profile = crediCrew.getProfilePath();
+
+            String crew_jobs[] = getResources().getStringArray(R.array.tmdb_crew_jobs);
+            final ArrayList crew_job_list = new ArrayList<String>(Arrays.asList(crew_jobs));
+            if (crew_job_list.contains(crew_job)){
+
+                creditsCrewTMdb.add(new CreditsCrewTMdb(crew_department, crew_job, crew_name, crew_profile));
+
+                limit ++;
+            }
+        }
+
+        movieAdapter_cast = new CastAdapter(MovieDetailActivity.this, creditsCastTMdb);
+        movieAdapter_crew = new CrewAdapter(MovieDetailActivity.this, creditsCrewTMdb);
+
+        recyclerView_cast.setAdapter(movieAdapter_cast);
+        recyclerView_crew.setAdapter(movieAdapter_crew);
     }
 
     private int build_movie_dialog(ArrayList<MovieTMdb> movies_result) {
