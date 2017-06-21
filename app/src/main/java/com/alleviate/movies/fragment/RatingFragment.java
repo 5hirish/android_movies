@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import com.alleviate.movies.R;
 import com.alleviate.movies.adapters.MetaDataAdapter;
 import com.alleviate.movies.ui.DividerItemDecoration;
-import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
-import com.turingtechnologies.materialscrollbar.DragScrollBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +41,6 @@ public class RatingFragment extends Fragment {
         final ArrayList mcu_movies = new ArrayList<String>(Arrays.asList(movies));
         Collections.sort(mcu_movies);
 
-        DragScrollBar dragScrollBar = (DragScrollBar)frag_view.findViewById(R.id.dragScrollBar);
-
         RecyclerView rv = (RecyclerView)frag_view.findViewById(R.id.rating_view);
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         rv.setHasFixedSize(true);
@@ -54,9 +50,6 @@ public class RatingFragment extends Fragment {
 
         rvadpter = new MetaDataAdapter(getActivity(), mcu_movies);
         rv.setAdapter(rvadpter);
-
-        //dragScrollBar.setHandleColour(getActivity().getColor(R.color.colorAccent));
-        dragScrollBar.addIndicator(new AlphabetIndicator(getActivity()), true);
 
         rv.setItemAnimator(new DefaultItemAnimator());
         return frag_view;

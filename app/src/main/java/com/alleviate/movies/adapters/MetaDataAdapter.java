@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.alleviate.movies.MovieDetailActivity;
 import com.alleviate.movies.R;
 import com.alleviate.movies.helper.Constants;
-import com.turingtechnologies.materialscrollbar.INameableAdapter;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  * shirishkadam.com
  */
 
-public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHolder> implements INameableAdapter {
+public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHolder> {
 
     ArrayList mcu_movies;
     Context context;
@@ -75,15 +74,6 @@ public class MetaDataAdapter extends RecyclerView.Adapter<MetaDataAdapter.ViewHo
         mcu_movies.add(position, "New Movie");
         notifyItemInserted(position);
         //getItemId(position);
-    }
-
-    @Override
-    public Character getCharacterForElement(int element) {
-        Character character = mcu_movies.get(element).toString().charAt(0);
-        if(Character.isDigit(character)){
-            character = '#';
-        }
-        return character;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

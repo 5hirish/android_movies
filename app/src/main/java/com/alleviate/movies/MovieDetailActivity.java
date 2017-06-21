@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,6 @@ import com.alleviate.movies.adapters.CastAdapter;
 import com.alleviate.movies.adapters.CrewAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
-import com.alleviate.movies.helper.TMDbGenres;
 import com.alleviate.movies.models.CreditsCastTMdb;
 import com.alleviate.movies.models.CreditsCrewTMdb;
 import com.alleviate.movies.models.MovieTMdb;
@@ -36,8 +36,8 @@ import com.alleviate.movies.pojo.SearchMovies;
 import com.alleviate.movies.pojo.SearchMoviesResult;
 import com.alleviate.movies.tmdb.TMDbAPI;
 import com.alleviate.movies.tmdb.TMDbAPIService;
+import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -192,7 +192,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onResponse(Call<DetailMovies> call, Response<DetailMovies> response) {
                 if (response.isSuccessful()){
 
-                    set_movie_metadata(response.body());
+                    String poster_path = set_movie_metadata(response.body());
+                    set_movie_poster(poster_path);
                 }
             }
 
@@ -203,6 +204,21 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void set_movie_poster(String poster_path) {
+
+        ImageView movie_poster = (ImageView)findViewById(R.id.movie_poster);
+
+        String tmdb_image_url = Constants.tmdb_image_basse_url + poster_path;
+
+        Picasso mPicasso = Picasso.with(getApplicationContext());               // We might need glide here
+        mPicasso.setIndicatorsEnabled(true);
+        mPicasso.load(tmdb_image_url)
+                .placeholder(R.drawable.ic_movie_genre_24dp)
+                //.resize(50, 50)
+                //.centerCrop()
+                .into(movie_poster);
     }
 
     public void get_tmdb_movies(final String movie_title, final boolean is_list) {
@@ -259,7 +275,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void set_movie_metadata(DetailMovies first_match_movie) {
+    private String set_movie_metadata(DetailMovies first_match_movie) {
 
         setTitle(first_match_movie.getOriginalTitle());
 
@@ -300,6 +316,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         tv_mvproduction.setText("");
         for (DetailMoviesProductionCompany productionCompany: productionCompanyList) {
             tv_mvproduction.append(productionCompany.getName()+", ");
+        }
+
+        if (first_match_movie.getPosterPath() != null) {
+            return first_match_movie.getPosterPath();
+        } else {
+            return first_match_movie.getBackdropPath();
         }
     }
 

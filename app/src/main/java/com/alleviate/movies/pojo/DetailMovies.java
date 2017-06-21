@@ -45,7 +45,7 @@ public class DetailMovies {
     private Double popularity;
     @SerializedName("poster_path")
     @Expose
-    private Object posterPath;
+    private String posterPath;
     @SerializedName("production_companies")
     @Expose
     private List<DetailMoviesProductionCompany> productionCompanies = null;
@@ -179,11 +179,11 @@ public class DetailMovies {
         this.popularity = popularity;
     }
 
-    public Object getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(Object posterPath) {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 

@@ -8,4 +8,5 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="app_bar_height">300dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="margin_24">24dp</dimen>
 </resources>
