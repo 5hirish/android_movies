@@ -58,7 +58,20 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         ((TextView) holder.itemView.findViewById(R.id.credit_name)).setText(creditsCastTMdbs.get(holder.getAdapterPosition()).cast_name);
         ((TextView) holder.itemView.findViewById(R.id.credit_description)).setText(creditsCastTMdbs.get(holder.getAdapterPosition()).cast_character);
 
-        Picasso.with(context).load(R.drawable.marvel_studios_logo).into(((ImageView) holder.itemView.findViewById(R.id.movie_poster)));
+        String poster_path = creditsCastTMdbs.get(holder.getAdapterPosition()).cast_profile;
+        String tmdb_image_url = Constants.tmdb_image_base_url_profile + poster_path;
+
+        Picasso mPicasso = Picasso.with(context);               // We might need glide here
+        mPicasso.setIndicatorsEnabled(true);
+        mPicasso.load(tmdb_image_url)
+                .placeholder(R.drawable.ic_movie_genre_24dp)
+                //.resize(50, 50)
+                //.centerCrop()
+                .into((ImageView) holder.itemView.findViewById(R.id.caste_profile));
+
+        //Picasso.with(context)
+        //        .load(R.drawable.marvel_studios_logo)
+        //        .into(((ImageView) holder.itemView.findViewById(R.id.movie_poster)));
 
         ((LinearLayout) holder.itemView.findViewById(R.id.mainHolder)).setOnClickListener(new View.OnClickListener() {
             @Override

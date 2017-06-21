@@ -210,7 +210,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         ImageView movie_poster = (ImageView)findViewById(R.id.movie_poster);
 
-        String tmdb_image_url = Constants.tmdb_image_basse_url + poster_path;
+        String tmdb_image_url = Constants.tmdb_image_base_url + poster_path;
 
         Picasso mPicasso = Picasso.with(getApplicationContext());               // We might need glide here
         mPicasso.setIndicatorsEnabled(true);

@@ -21,7 +21,9 @@ public class Constants {
 
     public static final String in_movie_title = "Movie_Title";
 
-    public static final String tmdb_image_basse_url = "https://image.tmdb.org/t/p/w300/";   //original - size
+    public static final String tmdb_image_base_url = "https://image.tmdb.org/t/p/w300/";   //original - size
+    public static final String tmdb_image_base_url_profile = "https://image.tmdb.org/t/p/w185/";   //original - size
 
 
 }
+

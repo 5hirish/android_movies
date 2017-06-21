@@ -10,7 +10,7 @@
     card_view:cardElevation="4dp">
 
     <ImageView
-        android:id="@+id/movie_poster"
+        android:id="@+id/caste_profile"
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:scaleType="centerCrop" />

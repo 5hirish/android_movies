@@ -58,8 +58,18 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
         ((TextView) holder.itemView.findViewById(R.id.credit_name)).setText(creditsCrewTMdbs.get(holder.getAdapterPosition()).crew_name);
         ((TextView) holder.itemView.findViewById(R.id.credit_description)).setText(creditsCrewTMdbs.get(holder.getAdapterPosition()).crew_job);
 
+        String poster_path = creditsCrewTMdbs.get(holder.getAdapterPosition()).crew_profile;
+        String tmdb_image_url = Constants.tmdb_image_base_url_profile + poster_path;
 
-        Picasso.with(context).load(R.drawable.marvel_studios_logo).into(((ImageView) holder.itemView.findViewById(R.id.movie_poster)));
+        Picasso mPicasso = Picasso.with(context);               // We might need glide here
+        mPicasso.setIndicatorsEnabled(true);
+        mPicasso.load(tmdb_image_url)
+                .placeholder(R.drawable.ic_movie_genre_24dp)
+                //.resize(50, 50)
+                //.centerCrop()
+                .into((ImageView) holder.itemView.findViewById(R.id.caste_profile));
+
+        //Picasso.with(context).load(R.drawable.marvel_studios_logo).into(((ImageView) holder.itemView.findViewById(R.id.movie_poster)));
 
         ((LinearLayout) holder.itemView.findViewById(R.id.mainHolder)).setOnClickListener(new View.OnClickListener() {
             @Override
