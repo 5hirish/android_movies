@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class TMDbGenres {
 
-    public Map<Integer,String> genre_map = new HashMap<Integer, String>();
+    public static Map<Integer,String> genre_map = new HashMap<Integer, String>();
 
     public TMDbGenres(){
 

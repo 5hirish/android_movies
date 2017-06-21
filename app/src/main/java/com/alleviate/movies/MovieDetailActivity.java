@@ -22,18 +22,24 @@ import com.alleviate.movies.adapters.CastAdapter;
 import com.alleviate.movies.adapters.CrewAdapter;
 import com.alleviate.movies.adapters.MovieTMdbAdapter;
 import com.alleviate.movies.helper.Constants;
+import com.alleviate.movies.helper.TMDbGenres;
 import com.alleviate.movies.models.MovieTMdb;
 import com.alleviate.movies.pojo.CreditCast;
 import com.alleviate.movies.pojo.CreditCrew;
 import com.alleviate.movies.pojo.CreditMovies;
+import com.alleviate.movies.pojo.DetailMovies;
 import com.alleviate.movies.pojo.SearchMovies;
 import com.alleviate.movies.pojo.SearchMoviesResult;
 import com.alleviate.movies.tmdb.TMDbAPI;
 import com.alleviate.movies.tmdb.TMDbAPIService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +58,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private CastAdapter movieAdapter_cast;
     private CrewAdapter movieAdapter_crew;
 
+    TextView tv_mvtagline, tv_mvgenre, tv_mvrelease_date, tv_mvruntime, tv_mvoverview,
+                tv_mvvotes, tv_mvpopularity, tv_mvproduction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +75,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         setTitle(movie_title);
 
         movie_keyword = movie_title;
-        response_tv = (TextView)findViewById(R.id.response_text);
 
         mAPIService = TMDbAPI.getAPIService();
 
@@ -123,6 +131,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerView_cast.setAdapter(movieAdapter_cast);
         recyclerView_crew.setAdapter(movieAdapter_crew);
 
+        tv_mvtagline = (TextView)findViewById(R.id.movie_tagline);
+        tv_mvgenre = (TextView)findViewById(R.id.movie_genre);
+        tv_mvrelease_date = (TextView)findViewById(R.id.movie_release_date);
+        tv_mvruntime = (TextView)findViewById(R.id.movie_runtime);
+        tv_mvoverview = (TextView)findViewById(R.id.movie_overview);
+        tv_mvvotes = (TextView)findViewById(R.id.movie_votes);
+        tv_mvpopularity = (TextView)findViewById(R.id.movie_popularity);
+        tv_mvproduction = (TextView)findViewById(R.id.movie_production);
+
+        response_tv = (TextView)findViewById(R.id.response_text);
 
 
         //recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -140,13 +158,34 @@ public class MovieDetailActivity extends AppCompatActivity {
                     List<CreditCast> movie_cast = response.body().getCast();
                     List<CreditCrew> movie_crew = response.body().getCrew();
 
-                    response_tv.setText(response.body().getId());
+                    //set_movie_metadata_credits(movie_crew);
 
                 }
             }
 
             @Override
             public void onFailure(Call<CreditMovies> call, Throwable t) {
+                t.printStackTrace();
+                Log.e("Request", "Unable to send GET to API. :: "+t.toString());
+            }
+        });
+
+    }
+
+    private void get_tmdb_movie_data(int movie_id) {
+
+        Call <DetailMovies> movie_details = mAPIService.get_movie_details(movie_id, getString(R.string.tmdb_api_key));
+        movie_details.enqueue(new Callback<DetailMovies>() {
+            @Override
+            public void onResponse(Call<DetailMovies> call, Response<DetailMovies> response) {
+                if (response.isSuccessful()){
+
+                    set_movie_metadata(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailMovies> call, Throwable t) {
                 t.printStackTrace();
                 Log.e("Request", "Unable to send GET to API. :: "+t.toString());
             }
@@ -183,9 +222,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
 
                         int movie_id = build_movie_dialog(movie_titles);
+                        get_tmdb_movie_data(movie_id);
                         get_tmdb_movie_credits(movie_id);
-
-
 
                     } else {
 
@@ -194,8 +232,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                         movie_titles.add(tMdb);
 
                         int movie_id = first_match_movie.getId();
+                        get_tmdb_movie_data(movie_id);
                         get_tmdb_movie_credits(movie_id);
-
                     }
 
                 }
@@ -207,6 +245,46 @@ public class MovieDetailActivity extends AppCompatActivity {
                 Log.e("Request", "Unable to send GET to API. :: "+t.toString());
             }
         });
+    }
+
+    private void set_movie_metadata(DetailMovies first_match_movie) {
+
+        tv_mvtagline.setText(first_match_movie.getTagline());
+
+        for (int genre_id: first_match_movie.getGenreIds()) {
+            String genre = TMDbGenres.genre_map.get(genre_id);
+            tv_mvgenre.append(genre+", ");
+        }
+
+        String release_date_str = first_match_movie.getReleaseDate();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date release_date = sdf.parse(release_date_str);
+            Calendar release_date_cal = Calendar.getInstance();
+            release_date_cal.setTime(release_date);
+
+            release_date_str = String.valueOf(release_date_cal.get(Calendar.YEAR));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        tv_mvrelease_date.setText(release_date_str);
+
+        tv_mvruntime.setText(String.valueOf(first_match_movie.getRuntime())+" mins");
+
+        tv_mvoverview.setText(first_match_movie.getOverview());
+
+        tv_mvvotes.setText(String.valueOf(first_match_movie.getVoteAverage()));
+
+        tv_mvpopularity.setText(String.valueOf(first_match_movie.getPopularity()));
+
+        tv_mvproduction.setText();
+    }
+
+    private void set_movie_metadata_credits(List<CreditCrew> movie_crew) {
+
     }
 
     private int build_movie_dialog(ArrayList<MovieTMdb> movies_result) {

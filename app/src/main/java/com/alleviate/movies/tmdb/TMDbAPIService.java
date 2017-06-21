@@ -1,6 +1,7 @@
 package com.alleviate.movies.tmdb;
 
 import com.alleviate.movies.pojo.CreditMovies;
+import com.alleviate.movies.pojo.DetailMovies;
 import com.alleviate.movies.pojo.RecommendedMovies;
 import com.alleviate.movies.pojo.ReviewMovies;
 import com.alleviate.movies.pojo.SearchMovies;
@@ -23,6 +24,9 @@ public interface TMDbAPIService {
 
     @GET("/3/search/movie")
     Call <SearchMovies> search_movies(@QueryMap Map<String, String> params);
+
+    @GET("/3/movie/{movie_id}")
+    Call <DetailMovies> get_movie_details(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
 
     @GET("/3/movie/{movie_id}/credits")
     Call <CreditMovies> get_movie_credits(@Path("movie_id") int movie_id, @Query("api_key") String api_key);
